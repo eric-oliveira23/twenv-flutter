@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "469741584116",
+    "firebase_url": "https://twenv-4dcbc-default-rtdb.firebaseio.com",
+    "project_id": "twenv-4dcbc",
+    "storage_bucket": "twenv-4dcbc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469741584116:android:5184637adb82775075a8a1",
+        "android_client_info": {
+          "package_name": "com.example.twenv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "469741584116-ul0otpmbbpvhoi6onhk7cceqj1ilmlad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHeyGWRfrdVeXu2NK5lH15SjSetNTDpaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "469741584116-ul0otpmbbpvhoi6onhk7cceqj1ilmlad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
