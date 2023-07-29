@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'add_value_states.dart';
 
@@ -20,5 +21,12 @@ class AddValueCubit extends Cubit<AddValueStates> {
     if (picked != null) {
       emit(AddValuesDateSelected(picked));
     }
+  }
+
+  void closePage(BuildContext context) {
+    if (!isClosed) {
+      emit(AddValuesInitial());
+    }
+    Navigator.pop(context);
   }
 }

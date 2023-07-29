@@ -5,6 +5,7 @@ import 'package:twenv/pages/spending_page.dart';
 import 'package:twenv/theme/colors.dart';
 
 import '../components/appbar_content.dart';
+import '../components/main_content_header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,9 +27,10 @@ class _HomePageState extends State<HomePage> {
             effects: const [
               FadeEffect(),
               SlideEffect(
-                  begin: Offset(0, 5),
-                  curve: Curves.decelerate,
-                  duration: Duration(seconds: 1))
+                begin: Offset(0, 5),
+                curve: Curves.decelerate,
+                duration: Duration(seconds: 1),
+              )
             ],
             child: const AppBarTitle(),
           ),
@@ -68,17 +70,62 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          const MainContentContainer(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          MainContentContainer(
+            child: Column(
               children: [
-                Counter(
-                  text: "Ganhos",
-                  svgPath: 'assets/images/icon-up.svg',
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Animate(
+                          effects: [
+                            const SlideEffect(
+                              begin: Offset(0, -4),
+                              curve: Curves.decelerate,
+                              duration: Duration(
+                                seconds: 1,
+                              ),
+                            ),
+                            ShimmerEffect(
+                              color: Colors.grey[700],
+                              duration: const Duration(
+                                seconds: 3,
+                              ),
+                            )
+                          ],
+                          child: const Text(
+                            'Junho',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                            ),
+                          ),
+                        ),
+                        const Text('Mês atual'),
+                      ],
+                    ),
+                  ],
                 ),
-                Counter(
-                  text: "Gastos",
-                  svgPath: 'assets/images/icon-down.svg',
+                const SizedBox(height: 15),
+                Container(
+                  color: Colors.white.withOpacity(0.25),
+                  height: 0.5,
+                  width: double.infinity,
+                ),
+                const SizedBox(height: 15),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Counter(
+                      text: "Ganhos",
+                      svgPath: 'assets/images/icon-up.svg',
+                    ),
+                    Counter(
+                      text: "Gastos",
+                      svgPath: 'assets/images/icon-down.svg',
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -103,95 +150,6 @@ class _HomePageState extends State<HomePage> {
                   onTap: () => _earningClicked(context),
                 ),
               ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class MainContentContainer extends StatelessWidget {
-  final Widget child;
-
-  const MainContentContainer({
-    super.key,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Animate(
-              effects: [
-                ShimmerEffect(
-                  color: Colors.white.withOpacity(0.07),
-                  duration: const Duration(seconds: 2),
-                ),
-              ],
-              child: Container(
-                  decoration: const BoxDecoration(
-                    color: AppColors.secondaryColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(children: [
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Animate(
-                                    effects: [
-                                      const SlideEffect(
-                                        begin: Offset(0, -4),
-                                        curve: Curves.decelerate,
-                                        duration: Duration(
-                                          seconds: 1,
-                                        ),
-                                      ),
-                                      ShimmerEffect(
-                                        color: Colors.grey[700],
-                                        duration: const Duration(
-                                          seconds: 3,
-                                        ),
-                                      )
-                                    ],
-                                    child: const Text(
-                                      'Junho',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 28,
-                                      ),
-                                    ),
-                                  ),
-                                  const Text('Mês atual'),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Container(
-                        color: Colors.white.withOpacity(0.25),
-                        height: 0.5,
-                        width: double.infinity,
-                      ),
-                      const SizedBox(height: 15),
-                      child,
-                    ]),
-                  )),
             ),
           ),
         ],

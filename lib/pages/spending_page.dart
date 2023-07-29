@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:twenv/model/spending_model.dart';
-import 'package:twenv/pages/home_page.dart';
 import '../components/appbar_content.dart';
 import '../components/fab.dart';
+import '../components/main_content_header.dart';
 import '../components/tiles/spending_tile.dart';
 import 'add_value_page/add_value_page.dart';
 
