@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twenv/pages/home_page.dart';
 import '../components/appbar_title.dart';
+import '../components/dialogs/warning_dialog.dart';
 import '../theme/colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -60,7 +61,17 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Expanded(
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return WarningDialog(
+                                    contentText: 'Conta criada com sucesso!',
+                                    buttonText: 'Entendi',
+                                  );
+                                },
+                              );
+                            },
                             child: const Text('Crie uma nova conta'),
                           ),
                         ),
