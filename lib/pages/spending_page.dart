@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twenv/model/spending_model.dart';
-import '../components/appbar_content.dart';
+import '../components/appbar_title.dart';
 import '../components/fab.dart';
 import '../components/main_content_header.dart';
 import '../components/tiles/spending_tile.dart';

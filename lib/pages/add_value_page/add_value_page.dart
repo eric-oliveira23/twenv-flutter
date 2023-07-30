@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:twenv/components/appbar_title.dart';
 import 'package:twenv/pages/add_value_page/add_value_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twenv/util/date_formatter.dart';
 import 'package:twenv/util/price_formatter.dart';
 import '../../components/main_content_header.dart';
+import '../../components/textfield_title.dart';
 
 class AddValuePage extends StatefulWidget {
   const AddValuePage({super.key});
@@ -20,18 +24,10 @@ class _AddValuePageState extends State<AddValuePage> {
     return BlocProvider(
       create: (context) => AddValueCubit(),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 0,
           automaticallyImplyLeading: false,
-          title: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(
-              Icons.close_rounded,
-              color: Colors.white,
-              size: 31,
-            ),
-          ),
+          title: const AppBarTitle(),
         ),
         body: MainContentContainer(
             child: Column(
@@ -41,7 +37,7 @@ class _AddValuePageState extends State<AddValuePage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Nova despesa do mês',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -50,11 +46,19 @@ class _AddValuePageState extends State<AddValuePage> {
                     ),
                     Row(
                       children: [
-                        Text('Total de gastos: '),
+                        const Text('Total de gastos: '),
                         Text(
                           priceFormatter(10.toString()),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Tooltip(
+                          message: '5% a mais que o mês anterior',
+                          child: SizedBox(
+                            height: 25,
+                            child:
+                                SvgPicture.asset('assets/images/icon-up.svg'),
                           ),
                         ),
                       ],
@@ -63,8 +67,39 @@ class _AddValuePageState extends State<AddValuePage> {
                 ),
               ],
             ),
-            SizedBox(height: 15),
-            DateButton(),
+            const SizedBox(height: 15),
+            const ValueTextField(),
+            const SizedBox(height: 25),
+            const Row(
+              children: [
+                Text('Data da despesa'),
+              ],
+            ),
+            const SizedBox(height: 5),
+            const DateButton(),
+            const SizedBox(height: 15),
+            const TextFieldWithTitle(title: 'Descrição da despesa'),
+            const SizedBox(height: 15),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => {},
+                    child: const Text('Adicionar'),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cancelar'),
+                  ),
+                ),
+              ],
+            ),
           ],
         )),
       ),
@@ -104,7 +139,7 @@ class DateButton extends StatelessWidget {
             children: [
               Text(
                 state is AddValuesDateSelected
-                    ? state.date.toString()
+                    ? formatDate(state.date)
                     : 'Selecione a data',
               ),
               const Icon(Icons.date_range),
@@ -141,6 +176,7 @@ class _ValueTextFieldState extends State<ValueTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      keyboardType: TextInputType.number,
       decoration: const InputDecoration(
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
@@ -155,6 +191,7 @@ class _ValueTextFieldState extends State<ValueTextField> {
       ),
       style: const TextStyle(
         color: Colors.white,
+        fontWeight: FontWeight.bold,
         fontSize: 23,
       ),
       controller: maskFormatter,

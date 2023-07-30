@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twenv/pages/home_page.dart';
-import '../components/appbar_content.dart';
+import '../components/appbar_title.dart';
 import '../theme/colors.dart';
 import 'login_page.dart';
 

@@ -34,7 +34,11 @@ class MainContentContainer extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 10, bottom: 17, left: 17, right: 17),
+                    top: 10,
+                    bottom: 17,
+                    left: 17,
+                    right: 17,
+                  ),
                   child: Column(
                     children: [
                       const SizedBox(height: 15),

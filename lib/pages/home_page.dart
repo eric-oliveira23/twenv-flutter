@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:twenv/pages/spending_page.dart';
 import 'package:twenv/theme/colors.dart';
 
-import '../components/appbar_content.dart';
+import '../components/appbar_title.dart';
 import '../components/main_content_header.dart';
 
 class HomePage extends StatefulWidget {
