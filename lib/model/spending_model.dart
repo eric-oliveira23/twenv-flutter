@@ -4,6 +4,7 @@ class SpendingModel {
   final String description;
   final DateTime date;
   final double value;
+
   SpendingModel({
     required this.description,
     required this.date,
@@ -25,7 +26,7 @@ class SpendingModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'description': description,
-      'date': date.millisecondsSinceEpoch,
+      'date': date,
       'value': value,
     };
   }
@@ -33,15 +34,20 @@ class SpendingModel {
   factory SpendingModel.fromMap(Map<String, dynamic> map) {
     return SpendingModel(
       description: map['description'] as String,
-      date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
+      date: map['date'] as DateTime,
       value: map['value'] as double,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SpendingModel.fromJson(String source) =>
-      SpendingModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SpendingModel.fromJson(Map<String, dynamic> json) {
+    return SpendingModel(
+      value: double.parse(json['value'].toString()),
+      description: json['description'],
+      date: DateTime.parse(json['date']),
+    );
+  }
 
   @override
   String toString() =>

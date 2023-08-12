@@ -22,11 +22,4 @@ class AddValueCubit extends Cubit<AddValueStates> {
       emit(AddValuesDateSelected(picked));
     }
   }
-
-  void closePage(BuildContext context) {
-    if (!isClosed) {
-      emit(AddValuesInitial());
-    }
-    Navigator.pop(context);
-  }
 }

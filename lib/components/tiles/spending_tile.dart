@@ -3,7 +3,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import '../../model/spending_model.dart';
-import '../../util/capitalize_first_letter.dart';
 import '../../util/price_formatter.dart';
 
 class SpendingTile extends StatefulWidget {
@@ -22,6 +21,7 @@ class _SpendingTileState extends State<SpendingTile> {
   @override
   void initState() {
     initializeDateFormatting();
+
     super.initState();
   }
 
@@ -29,7 +29,7 @@ class _SpendingTileState extends State<SpendingTile> {
   Widget build(BuildContext context) {
     String monthName = DateFormat('EEEE', 'pt_BR').format(widget.spending.date);
     String date = DateFormat('dd/MM', 'pt_BR').format(widget.spending.date);
-    monthName = capitalizeFirstLetter(monthName);
+    // monthName = capitalizeFirstLetter(monthName);
 
     return Animate(
       effects: const [
@@ -84,11 +84,11 @@ class _SpendingTileState extends State<SpendingTile> {
                 ],
               ),
               const SizedBox(height: 7),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(widget.spending.description),
-                ],
+              Text(
+                widget.spending.description,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),

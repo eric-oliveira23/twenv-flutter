@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:twenv/pages/splash_page.dart';
 import 'package:twenv/theme/theme.dart';
+import 'package:twenv/ui/splash_page.dart';
 import 'firebase_options.dart';
 
 void main() async {

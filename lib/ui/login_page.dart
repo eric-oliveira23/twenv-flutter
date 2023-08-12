@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:twenv/pages/home_page.dart';
 import '../components/appbar_title.dart';
 import '../components/dialogs/warning_dialog.dart';
 import '../theme/colors.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -61,11 +61,11 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Expanded(
                           child: TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return WarningDialog(
+                                  return const WarningDialog(
                                     contentText: 'Conta criada com sucesso!',
                                     buttonText: 'Entendi',
                                   );

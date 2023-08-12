@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:twenv/pages/spending_page.dart';
 import 'package:twenv/theme/colors.dart';
+import 'package:twenv/ui/spending_page.dart';
 
 import '../components/appbar_title.dart';
 import '../components/main_content_header.dart';
