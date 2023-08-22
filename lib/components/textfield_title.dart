@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class TextFieldWithTitle extends StatelessWidget {
   final String title;
+  final TextEditingController? controller;
 
   const TextFieldWithTitle({
     super.key,
     required this.title,
+    this.controller,
   });
 
   @override
@@ -21,6 +23,7 @@ class TextFieldWithTitle extends StatelessWidget {
           Text(title),
           const SizedBox(height: 5),
           TextField(
+            controller: controller,
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               filled: true,

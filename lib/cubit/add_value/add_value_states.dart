@@ -4,6 +4,8 @@ abstract class AddValueStates {}
 
 class AddValuesInitial extends AddValueStates {}
 
+class AddValuesLoading extends AddValueStates {}
+
 class AddValuesDateSelected extends AddValueStates {
   AddValuesDateSelected(this.date);
 

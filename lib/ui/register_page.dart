@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:twenv/cubit/login/login_cubit.dart';
-import '../components/appbar_title.dart';
-import '../components/textfield_title.dart';
-import '../theme/colors.dart';
-import 'home_page.dart';
+import '../../components/appbar_title.dart';
+import '../../components/textfield_title.dart';
+import '../../cubit/register/register_page_cubit.dart';
+import '../../theme/colors.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
+TextEditingController userNameController = TextEditingController();
 TextEditingController emailController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
+TextEditingController passController = TextEditingController();
+TextEditingController confirmedPassController = TextEditingController();
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginPageCubit(),
-      child: BlocBuilder<LoginPageCubit, LoginPageStates>(
+      create: (context) => RegisterPageCubit(),
+      child: BlocBuilder<RegisterPageCubit, RegisterPageStates>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -47,11 +48,15 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         children: [
                           const Text(
-                            'Entre sua conta',
+                            'Crie sua conta',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 19,
                             ),
+                          ),
+                          TextFieldWithTitle(
+                            title: 'Usuário',
+                            controller: userNameController,
                           ),
                           TextFieldWithTitle(
                             title: 'Email',
@@ -59,7 +64,11 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextFieldWithTitle(
                             title: 'Senha',
-                            controller: passwordController,
+                            controller: passController,
+                          ),
+                          TextFieldWithTitle(
+                            title: 'Confirme a senha',
+                            controller: confirmedPassController,
                           ),
                           const SizedBox(height: 15),
                           Row(
@@ -68,29 +77,33 @@ class _LoginPageState extends State<LoginPage> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     context
-                                        .read<LoginPageCubit>()
-                                        .loginButtonClicked(
+                                        .read<RegisterPageCubit>()
+                                        .confirmButtonClicked(
+                                          userNameController.text,
                                           emailController.text,
-                                          passwordController.text,
+                                          passController.text,
+                                          confirmedPassController.text,
                                           context,
                                         );
                                   },
-                                  child: state is LoginStatesInitial
-                                      ? const Text('Entrar')
+                                  child: state is RegisterStatesInitial
+                                      ? const Text('Criar')
                                       : Lottie.asset(
                                           'assets/animations/loading_animation.json',
                                           width: 70,
                                         ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                           Row(
                             children: [
                               Expanded(
                                 child: TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('Crie uma nova conta'),
+                                  onPressed: () => context
+                                      .read<RegisterPageCubit>()
+                                      .loginClicked(context),
+                                  child: const Text('Entre em sua conta'),
                                 ),
                               ),
                             ],
@@ -107,13 +120,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
-
-void _nextPage(BuildContext context) {
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute<void>(
-      builder: (BuildContext context) => const HomePage(),
-    ),
-  );
 }

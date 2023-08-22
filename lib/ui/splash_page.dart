@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:twenv/ui/register_page/register_page.dart';
+import 'package:twenv/ui/register_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

@@ -4,11 +4,13 @@ import 'package:lottie/lottie.dart';
 class WarningDialog extends StatelessWidget {
   final String contentText;
   final String buttonText;
+  final bool isSuccess;
 
   const WarningDialog({
     super.key,
     required this.contentText,
     required this.buttonText,
+    required this.isSuccess,
   });
 
   @override
@@ -23,14 +25,24 @@ class WarningDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Lottie.asset(
-            'assets/animations/success_animation.json',
-            repeat: false,
-            width: 100,
-            height: 100,
-          ),
+          isSuccess
+              ? Lottie.asset(
+                  'assets/animations/success_animation.json',
+                  repeat: false,
+                  width: 100,
+                  height: 100,
+                )
+              : Lottie.asset(
+                  'assets/animations/error_animation.json',
+                  repeat: false,
+                  // width: 100,
+                  // height: 100,
+                ),
           const SizedBox(height: 15),
-          Text(contentText),
+          Text(
+            contentText,
+            textAlign: TextAlign.center,
+          ),
           const SizedBox(height: 15),
           Row(
             children: [

@@ -1,8 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class SpendingModel {
   final String description;
-  final DateTime date;
+  final String date;
   final double value;
 
   SpendingModel({
@@ -13,7 +14,7 @@ class SpendingModel {
 
   SpendingModel copyWith({
     String? description,
-    DateTime? date,
+    String? date,
     double? value,
   }) {
     return SpendingModel(
@@ -34,20 +35,15 @@ class SpendingModel {
   factory SpendingModel.fromMap(Map<String, dynamic> map) {
     return SpendingModel(
       description: map['description'] as String,
-      date: map['date'] as DateTime,
+      date: map['date'] as String,
       value: map['value'] as double,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SpendingModel.fromJson(Map<String, dynamic> json) {
-    return SpendingModel(
-      value: double.parse(json['value'].toString()),
-      description: json['description'],
-      date: DateTime.parse(json['date']),
-    );
-  }
+  factory SpendingModel.fromJson(String source) =>
+      SpendingModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() =>

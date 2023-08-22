@@ -1,3 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:twenv/model/spending_model.dart';
@@ -5,8 +7,8 @@ import '../components/appbar_title.dart';
 import '../components/fab.dart';
 import '../components/main_content_header.dart';
 import '../components/tiles/spending_tile.dart';
-import '../repositories/spending_repository.dart';
-import 'add_value_page/add_value_page.dart';
+import '../repositories/value_repository.dart';
+import 'add_value_page.dart';
 
 class SpendingPage extends StatefulWidget {
   const SpendingPage({super.key});
@@ -15,12 +17,15 @@ class SpendingPage extends StatefulWidget {
   State<SpendingPage> createState() => SpendingPageState();
 }
 
-List<SpendingModel> _spendings = [];
+// List<SpendingModel> _spendings = [];
+DatabaseReference? _valuesReference;
 
 class SpendingPageState extends State<SpendingPage> {
   @override
   void initState() {
-    fetchData();
+    setState(() {
+      fetchData();
+    });
     super.initState();
   }
 
@@ -89,15 +94,23 @@ class SpendingPageState extends State<SpendingPage> {
                       ],
                     ),
                   ),
-                  ListView.builder(
+                  FirebaseAnimatedList(
+                    query: _valuesReference!,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: _spendings.length,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (context, snapshot, animation, index) {
+                      final spendingModel = SpendingModel(
+                        description:
+                            snapshot.child('description').value.toString(),
+                        date: snapshot.child('date').value.toString(),
+                        value: double.parse(
+                          snapshot.child('value').value.toString(),
+                        ),
+                      );
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SpendingTile(
-                          spending: _spendings[index],
+                          spending: spendingModel,
                         ),
                       );
                     },
@@ -125,6 +138,6 @@ class SpendingPageState extends State<SpendingPage> {
   }
 
   fetchData() async {
-    _spendings = await GetSpending.fetchSpendings();
+    _valuesReference = await SpendingRepository.fetchSpendings();
   }
 }
