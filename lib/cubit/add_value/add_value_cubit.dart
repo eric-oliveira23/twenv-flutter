@@ -77,7 +77,7 @@ class AddValueCubit extends Cubit<AddValueStates> {
     DatabaseReference spendingsRef = databaseReference
         .child('users')
         .child(auth.currentUser!.uid)
-        .child('spendings')
+        .child('earnings')
         .push();
 
     spendingsRef.set(spendingModel.toMap());

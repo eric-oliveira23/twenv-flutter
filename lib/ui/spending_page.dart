@@ -17,7 +17,6 @@ class SpendingPage extends StatefulWidget {
   State<SpendingPage> createState() => SpendingPageState();
 }
 
-// List<SpendingModel> _spendings = [];
 DatabaseReference? _valuesReference;
 
 class SpendingPageState extends State<SpendingPage> {
@@ -48,6 +47,7 @@ class SpendingPageState extends State<SpendingPage> {
         child: Column(
           children: [
             MainContentContainer(
+              enableMenu: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

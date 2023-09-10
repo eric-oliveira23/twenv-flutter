@@ -5,10 +5,12 @@ import '../theme/colors.dart';
 
 class MainContentContainer extends StatelessWidget {
   final Widget child;
+  final bool enableMenu;
 
   const MainContentContainer({
     super.key,
     required this.child,
+    required this.enableMenu,
   });
 
   @override

@@ -40,6 +40,7 @@ class _AddValuePageState extends State<AddValuePage> {
               title: const AppBarTitle(),
             ),
             body: MainContentContainer(
+              enableMenu: false,
               child: Column(
                 children: [
                   Row(

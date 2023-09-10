@@ -6,38 +6,72 @@ import 'package:twenv/model/spending_model.dart';
 part 'home_page_states.dart';
 
 class HomePageCubit extends Cubit<HomePageStates> {
-  HomePageCubit() : super(HomePageInitial());
+  HomePageCubit() : super(HomePageInitial()) {
+    loadValues();
+  }
 
   double _allSpendingsValue = 0;
   double _allEarningsValue = 0;
 
-  void loadInfos() async {
+  double get allSpendingsValue => _allSpendingsValue;
+  double get allEarningsValue => _allEarningsValue;
+
+  Future<void> loadValues() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
 
-    DataSnapshot snapshot = await databaseReference
+    DataSnapshot spendingsSnapshot = await databaseReference
         .child('users')
         .child(auth.currentUser!.uid)
         .child('spendings')
         .get();
+
     List<SpendingModel> spendings = [];
 
-    final dynamic snapshotData = snapshot.value;
+    final dynamic spendingsData = spendingsSnapshot.value;
 
-    snapshotData.forEach(
-      (key, value) {
+    if (spendingsData is Map) {
+      spendingsData.forEach((key, value) {
         var spendingModel = SpendingModel(
           description: value['description']?.toString() ?? '',
           date: value['date']?.toString() ?? '',
           value: double.parse(value['value']?.toString() ?? '0'),
         );
         spendings.add(spendingModel);
-      },
-    );
+      });
+    }
 
     for (var element in spendings) {
       _allSpendingsValue += element.value;
     }
-    print(_allSpendingsValue);
+
+    // Get earnings
+
+    DataSnapshot earningsSnapshot = await databaseReference
+        .child('users')
+        .child(auth.currentUser!.uid)
+        .child('earnings')
+        .get();
+
+    List<SpendingModel> earnings = [];
+
+    final dynamic earningsData = earningsSnapshot.value;
+
+    if (spendingsData is Map) {
+      earningsData.forEach((key, value) {
+        var spendingModel = SpendingModel(
+          description: value['description']?.toString() ?? '',
+          date: value['date']?.toString() ?? '',
+          value: double.parse(value['value']?.toString() ?? '0'),
+        );
+        earnings.add(spendingModel);
+      });
+    }
+
+    for (var element in earnings) {
+      _allEarningsValue += element.value;
+    }
+
+    emit(HomePageLoaded());
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:twenv/theme/colors.dart';
 import 'package:twenv/ui/spending_page.dart';
 import 'package:twenv/util/price_formatter.dart';
@@ -17,15 +18,32 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+List<String> months = [
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro"
+];
+
+String selectedMonth = months.first;
+
 class _HomePageState extends State<HomePage> {
-  @override
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomePageCubit(),
       child:
           BlocBuilder<HomePageCubit, HomePageStates>(builder: (context, state) {
-        context.read<HomePageCubit>().loadInfos();
+        final cubit = context.read<HomePageCubit>();
+
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -80,37 +98,30 @@ class _HomePageState extends State<HomePage> {
           body: Column(
             children: [
               MainContentContainer(
+                enableMenu: true,
                 child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Animate(
-                              effects: [
-                                const SlideEffect(
-                                  begin: Offset(0, -4),
-                                  curve: Curves.decelerate,
-                                  duration: Duration(
-                                    seconds: 1,
-                                  ),
-                                ),
-                                ShimmerEffect(
-                                  color: Colors.grey[700],
-                                  duration: const Duration(
-                                    seconds: 3,
-                                  ),
-                                )
-                              ],
-                              child: const Text(
-                                'Junho',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 28,
+                            Animate(effects: [
+                              const SlideEffect(
+                                begin: Offset(0, -4),
+                                curve: Curves.decelerate,
+                                duration: Duration(
+                                  seconds: 1,
                                 ),
                               ),
-                            ),
+                              ShimmerEffect(
+                                color: Colors.grey[700],
+                                duration: const Duration(
+                                  seconds: 3,
+                                ),
+                              )
+                            ], child: MonthDropdown()),
                             const Text('Mês atual'),
                           ],
                         ),
@@ -123,21 +134,23 @@ class _HomePageState extends State<HomePage> {
                       width: double.infinity,
                     ),
                     const SizedBox(height: 15),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Counter(
                           text: "Ganhos",
                           svgPath: 'assets/images/icon-up.svg',
-                          value: '1',
+                          value: cubit.allEarningsValue.toString(),
+                          state: state,
                         ),
                         Counter(
                           text: "Gastos",
                           svgPath: 'assets/images/icon-down.svg',
-                          value: '1',
+                          value: cubit.allSpendingsValue.toString(),
+                          state: state,
                         ),
                       ],
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -167,6 +180,35 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       }),
+    );
+  }
+}
+
+class MonthDropdown extends StatelessWidget {
+  const MonthDropdown({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      underline: const SizedBox.shrink(),
+      value: selectedMonth,
+      dropdownColor: AppColors.secondaryColor.withOpacity(0.0),
+      items: months.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        );
+      }).toList(),
+      onChanged: (value) {
+        selectedMonth = value!;
+      },
     );
   }
 }
@@ -245,7 +287,7 @@ class Counter extends StatelessWidget {
     required this.text,
     required this.svgPath,
     required this.value,
-    this.state,
+    required this.state,
   });
 
   @override
@@ -266,10 +308,23 @@ class Counter extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 5),
-            state is HomePageLoading
-                ? Container()
-                : Text(
+            state is HomePageLoaded
+                ? Text(
                     priceFormatter(value.toString()).toString(),
+                  )
+                : Shimmer.fromColors(
+                    baseColor: Colors.grey.withOpacity(0.1),
+                    highlightColor: Colors.white.withOpacity(0.3),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        color: Colors.white,
+                      ),
+                      width: 60,
+                      height: 20,
+                    ),
                   )
           ],
         )
